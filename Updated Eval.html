@@ -1,0 +1,718 @@
+$('#field_474265_1_6').val($('#field_474357').val())
+
+
+function dispno(){
+    if(!window.location.href.includes('/preview/')){
+        $('.field_474265_1_6').css('pointer-events','none')
+    }
+}
+
+$(document).ready(dispno);
+$(document).ajaxStop(dispno);
+
+
+function showpv(){
+    if(window.location.href.includes('/preview/')){
+        $('#field_474357').hide()
+    }
+}
+
+$(document).ready(showpv);
+
+/* function onlyyear(){
+    let myfirstval=$('#field_474353').val()
+    let secmy=myfirstval.split(',')
+    $('#field_474353').val(secmy[0])
+    }
+    $('#field_417626').change(onlyyear);
+ */
+
+
+    function func2(){
+    if($('#field_474259').val() == "Request Rework" && !window.location.href.includes('/preview/') || "Request Rejected" && !window.location.href.includes('/preview/')){
+        $('.field_474304').css("pointer-events","none");
+    }
+}
+
+$(document).ready(func2);
+$(document).ajaxStop(func2);
+
+
+function func3(){
+    if($('#field_474258').val() == "Request Rework" && !window.location.href.includes('/preview/') || "Request Rejected" && !window.location.href.includes('/preview/')){
+        $('.field_474303').css("pointer-events","none");
+    }
+}
+
+$(document).ready(func3);
+$(document).ajaxStop(func3);
+
+function makeParaReadonly(){
+    if($('#field_474257').val() == "Request Rework" && !window.location.href.includes('/preview/') || "Request Rejected" && !window.location.href.includes('/preview/')){
+        $('.field_474301').css("pointer-events","none");
+    }
+}
+
+
+$(document).ready(makeParaReadonly);
+$(document).ajaxStop(makeParaReadonly);
+
+
+function func5(){
+    if($('#field_474255').val() == "Request Rework" && !window.location.href.includes('/preview/') || "Request Rejected" && !window.location.href.includes('/preview/')){
+        $('.field_474306').css("pointer-events","none");
+    }
+}
+
+
+$(document).ready(func5);
+$(document).ajaxStop(func5);
+
+function makeParaReadonly1(){
+    if($('#field_474254').val() == "Request Rework" && !window.location.href.includes('/preview/') || "Request Rejected" && !window.location.href.includes('/preview/')){
+        $('.field_474305').css("pointer-events","none");
+    }
+}
+
+
+$(document).ready(makeParaReadonly1);
+$(document).ajaxStop(makeParaReadonly1);
+
+
+
+
+/*to down the color of table of massage showing*/
+for (var i = 1; i <= 6; i++) {
+    $('#field_474265_1_' + i).removeAttr('class');
+}
+/*nationality shown */
+var nircShown = function (status) {
+    var runOnLoadThis = function () {
+        var nationality = $('#nationality').val();
+        var statusValue = $('#' + status).val();
+        $('.field_216112').hide();
+        removeRequired('field_216112');
+        if (nationality === "232825;;;Malaysian") {
+            console.log(status);
+            if (statusValue === "Request Rework") {
+                $('.field_216112').hide();
+                removeRequired('field_216112');
+            } else if (statusValue === "Request Rejected") {
+                $('.field_216112').hide();
+                removeRequired('field_216112');
+            } else if (statusValue === "In Progress") {
+                $('.field_216112').hide();
+                removeRequired('field_216112');
+            } else {
+                $('.field_216112').show();
+                addRequired('field_216112');
+            }
+            $('#tr_field_474265_0 > td:nth-child(3)').show();
+            $('#td_field_474265_1_2').show();
+            $('#tr_field_474265_0 > td:nth-child(4)').hide();
+            $('#td_field_474265_1_3').hide();
+        } else {
+            $('#tr_field_474265_0 > td:nth-child(3)').hide();
+            $('#td_field_474265_1_2').hide();
+            $('#tr_field_474265_0 > td:nth-child(5),#tr_field_474265_0 > td:nth-child(4)').show();
+            $('#td_field_474265_1_3').show();
+        }
+    }
+    $(document).ready(runOnLoadThis);
+}
+nircShown('field_474259');
+nircShown('field_474258');
+nircShown('field_474257');
+
+//---------------------------------------freeze email and mobile ------------------
+if ($('#email').length > 0 && $('#email').val() != '') {
+    $('#email').attr('readonly', 'readonly');
+}
+if ($('#mobile_no').length > 0 && $('#mobile_no').val() != '') {
+    $('#mobile_no').attr('readonly', 'readonly');
+}
+
+/*--------------table add more js---------------------*/
+function buttonCheck(tableId, visibleRow) {
+    if (tableObj[tableId][2] == tableObj[tableId][0]) {
+        $('.' + tableId + ' .r-more').addClass('r-hide');
+    } else {
+        $('.' + tableId + ' .r-more').removeClass('r-hide');
+    }
+    if (tableObj[tableId][2] <= visibleRow) {
+        $('.' + tableId + ' .r-less').addClass('r-hide');
+    } else {
+        $('.' + tableId + ' .r-less').removeClass('r-hide');
+    }
+}
+
+window.addRow = function (tableId, visibleRow, isMandatory) {
+    $('#tr_' + tableId + '_' + (tableObj[tableId][2] + 1).toString()).removeClass('r-hide');
+    if (isMandatory) {
+        $('#tr_' + tableId + '_' + (tableObj[tableId][2] + 1).toString() + ' input, #tr_' + tableId + '_' + (tableObj[tableId][2] + 1).toString() + ' select').not($("input[name^='other_']")).each(function (i, e) {
+            if (e.type != 'file') {
+                addRequired(e.id);
+            }
+        });
+    }
+    tableObj[tableId][2] = tableObj[tableId][2] + 1;
+    tableObj[tableId][3] = Math.abs(tableObj[tableId][2] - tableObj[tableId][0]);
+    buttonCheck(tableId, visibleRow);
+};
+
+window.hideRow = function (tableId, visibleRow, isMandatory) {
+    $('#tr_' + tableId + '_' + tableObj[tableId][2]).addClass('r-hide');
+    if (isMandatory) {
+        $('#tr_' + tableId + '_' + (tableObj[tableId][2]).toString() + ' input, #tr_' + tableId + '_' + (tableObj[tableId][2]).toString() + ' select').not($("input[name^='other_']")).each(function (i, e) {
+            removeRequired(e.id);
+        });
+    }
+    $('#tr_' + tableId + '_' + tableObj[tableId][2] + ' select, #tr_' + tableId + '_' + tableObj[tableId][2] + ' input').each(function (i, e) {
+        if (e.type == 'file') {
+            var id = e.id;
+            if ($(e).parent().find('#list_files_' + id + ' ul li').length) {
+                $(e).parent().find('#list_files_' + id + ' ul li').each(function (j, ele) {
+                    $(ele).find('span:last-child').click();
+                });
+            }
+        } else {
+            $(e).val('').change();
+        }
+    });
+    tableObj[tableId][2] = tableObj[tableId][2] - 1;
+    tableObj[tableId][3] = Math.abs(tableObj[tableId][2] - tableObj[tableId][0]);
+    buttonCheck(tableId, visibleRow);
+};
+
+function tableMoreLessRapper(tableId, tableRows, tableColumns, visibleRow, isMandatory) {
+    if (!window.hasOwnProperty('tableObj')) {
+        window.tableObj = {};
+    }
+    if ($('.' + tableId).length) {
+        tableObj[tableId] = [tableRows, tableColumns, visibleRow, tableRows - visibleRow] // [row, column, visibleRow, hiddenRow]
+        var hideFlag = true;
+        for (var i = tableRows; i >= 1; i--) {
+            var tRowId = 'tr_' + tableId + '_' + i;
+            for (var j = 1; j <= tableColumns; j++) {
+                var tColumnFieldId = tableId + '_' + i + '_' + j;
+                if (($('#' + tColumnFieldId).length) && ($('#' + tColumnFieldId).val() != '')) {
+                    hideFlag = false;
+                }
+            }
+            if ((hideFlag) && (i > visibleRow)) {
+                $('#' + tRowId).addClass('r-hide');
+            }
+        }
+        tableObj[tableId][2] = tableRows - $('.' + tableId + ' .r-hide').length;
+        tableObj[tableId][3] = Math.abs($('.' + tableId + ' .r-hide').length - tableRows);
+        $('.' + tableId).append('<div class="col-md-12" style="display: block;"><a onclick="hideRow(\'' + tableId + '\', \'' + visibleRow + '\', ' + isMandatory + ')" class="btn pull-left dark-grey r-less"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true" style="top: 3px;font-size: 20px;"></span>&nbsp; Less</a><a onclick="addRow(\'' + tableId + '\', \'' + visibleRow + '\', ' + isMandatory + ')" class="btn pull-right dark-grey r-more"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="top: 3px;font-size: 20px;"></span>&nbsp; More</a></div>');
+        buttonCheck(tableId, visibleRow);
+    }
+}
+
+$('head').append('<style>.r-hide {display: none;}@media (max-width: 425px) {.r-more, .r-less {margin-top: -30px;}}@media (min-width: 426px) {.r-more, .r-less {margin-top: -10px;}} .field_96124.table tr td:first-child, .field_96128.table tr td:first-child, .field_98595.table tr td:first-child, .field_96132.table tr td:first-child, .field_96133.table tr td:first-child, .field_96135.table tr td:first-child, .field_96136.table tr td:first-child, .field_96146.table tr td:first-child, .field_97957.table tr td:first-child, .field_97963.table tr td:first-child, .field_97964.table tr td:first-child, .field_97965.table tr td:first-child {text-align: center}  .field_96124.table tr:last-child, .field_96128.table tr:last-child, .field_98595.table tr:last-child, .field_96132.table tr:last-child, .field_96133.table tr:last-child {background-color: #dbdad8} </style>');
+
+/*tableMoreLessRapper('field_215662', 5, 4, 1, false);*/
+tableMoreLessRapper('field_474171', 6, 2, 1, false);
+tableMoreLessRapper('field_474179', 7, 5, 1, false);
+tableMoreLessRapper('field_474181', 3, 2, 1, false);
+tableMoreLessRapper('field_474229', 5, 2, 1, false);
+tableMoreLessRapper('field_474228', 5, 4, 1, false);
+tableMoreLessRapper('field_474230', 5, 4, 1, false);
+tableMoreLessRapper('field_474344', 6, 2, 1, false);
+
+/*Custom Requirement JS*/
+/*Start Revemp JS For Manipal Meleka Fis Form- Author: Anshul -function to Set the form moving parameters based on the conditions*/
+var FormStages = ['icon-parents', 'icon-Qualification', 'app-Additional-Remarks-ico', 'icon-uploads', 'icon-declaration', 'icon-gateway-icon'];
+
+var Address_ApplicantField = ['field_474193', 'field_474193', 'field_216097', 'field_216098', 'birth_place', 'date_of_birth', 'field_216105', 'gender', 'marital_status', 'field_216101', 'field_474154', 'field_474156', 'correspondence_country', 'field_474194', 'correspondence_state', 'field_474195', 'correspondence_address1', 'correspondence_pincode'];
+
+var MsgFreezedFirstStages = `<div style='text-align:center;font-weight:700;font-size: 23px;margin-block-start:20px!important;'>Your first stage has been freezed since your application has been marked as approved.</div><hr></hr>`
+
+var MsgApplicationRejacted = `<div style='text-align:center;font-weight:700;font-size: 18px;color:#FF5015;margin-block-start:20px!important;'>Your Application has been rejected.</div><hr>`
+
+var MSgReworkApplication = `<div style='text-align:center;font-weight:700;font-size: 18px;color:#FF5015;margin-block-start:20px!important;'>You need to re-upload the particular documents which have been marked under rework by going back to the first stage.After re-uploading the documents, please wait till the counselor marks the status after verifying the documents.</div><hr>`
+
+var CheckApplicatioStatus = function (SPM, SPTM, ALEVEL, Nationality, InstructionField) {
+    var Runonload = function () {
+        let SPM_Value = $('#' + SPM).val();
+        let SPTM_Value = $('#' + SPTM).val();
+        let ALEVEL_Value = $('#' + ALEVEL).val();
+        /* let IELTS_Value = $('#' + IELTS).val(); */
+        let Nationality_Value = $('#' + Nationality).val();
+        $('.field_474271').hide();
+        if (Nationality_Value !== "" && Nationality_Value === "232825;;;Malaysian") {
+            if (SPM_Value !== "" && SPTM_Value !== "" && SPM_Value === "Request Approved" && SPTM_Value === "Request Approved") {
+                console.log('Nationality with spm approved and sptm approved');
+                $('.field_216112').show();
+                addRequired('field_216112');
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().show();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).show();
+                    addRequired(e);
+                });
+                $('.correspondence_address2').show();
+                $('#next_btn').show();
+                $('.' + InstructionField).html(MsgFreezedFirstStages);
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('h3:contains(Applicant Information)').length ? $('a:contains(Back)').remove() : console.log('Malesian Case');
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-3.text-left').hide() : console.log();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-6').css('margin-left', 90) : console.log();
+            } else if (SPM_Value === "Request Rejected" || SPTM_Value === "Request Rejected") {
+                $('.field_216112').hide();
+                removeRequired('field_216112');
+                $('.' + InstructionField).html(MsgApplicationRejacted);
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().hide();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).hide();
+                    removeRequired(e);
+                    setTimeout(() => {
+                        $('.' + e).hide();
+                    }, 400);
+                });
+                $('.correspondence_address2').hide();
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-3.text-left').hide() : console.log();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-6').css('margin-left', 90) : console.log();
+                $('a:contains(Back)').remove();
+                $('#next_btn,.owl-next').hide();
+            } else if (SPM_Value === "Request Rework" || SPTM_Value === "Request Rework") {
+                $('.field_216112').hide();
+                removeRequired('field_216112');
+                console.log('Applicant can edit their Application Now');
+                $('.' + InstructionField).html(MSgReworkApplication);
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().hide();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).hide();
+                    removeRequired(e);
+                    setTimeout(() => {
+                        $('.' + e).hide();
+                    }, 400);
+                });
+                $('.correspondence_address2').hide();
+                $('h3:contains(Applicant Information)').length ? $('#next_btn').remove() : console.log();
+                $('.owl-next').hide();
+            } else {
+                $('.field_216112').hide();
+                removeRequired('field_216112');
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().hide();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).hide();
+                    removeRequired(e);
+                });
+                $('.correspondence_address2').hide();
+                $('.field_474271').show();
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('a:contains(Back)').remove();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-3.text-left').hide() : console.log();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-6').css('margin-left', 90) : console.log();
+                $('.owl-next').hide();
+                if ($('.field_474271:contains(We are reviewing your documents and rest of the Application will be accessible depending on the status marked by the Admissions Team in the above fields.)').length) {
+                    $('#next_btn,.owl-next').hide();
+                }
+            }
+        } else if (Nationality_Value !== "" && Nationality_Value !== "232825;;;Malaysian") {
+            if (SPM_Value !== "" && SPM_Value === "Request Approved" && ALEVEL_Value !== "" && ALEVEL_Value === "Request Approved") {
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().show();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).show();
+                    addRequired(e);
+                });
+                $('.correspondence_address2').show();
+                $('#next_btn').show();
+                $('.' + InstructionField).html(MsgFreezedFirstStages);
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('h3:contains(Applicant Information)').length ? $('a:contains(Back)').remove() : console.log('Non Malesian Case');
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-3.text-left').hide() : console.log();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-6').css('margin-left', 90) : console.log();
+            } else if ((SPM_Value === "Request Rejected" || ALEVEL_Value === "Request Rejected")) {
+                $('.' + InstructionField).html(MsgApplicationRejacted);
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('h3:contains(Applicant Information)').length ? $('a:contains(Back)').remove() : console.log('Malesian Case');
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().hide();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).hide();
+                    removeRequired(e);
+                    setTimeout(() => {
+                        $('.' + e).hide();
+                    }, 400);
+                });
+                $('.correspondence_address2').hide();
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-3.text-left').hide() : console.log();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-6').css('margin-left', 90) : console.log();
+                $('#next_btn,.owl-next').hide();
+                $('a:contains(Back)').remove();
+            } else if (SPM_Value === "Request Rework" || ALEVEL_Value === "Request Rework") {
+                console.log('Applicant can edit their Application Now');
+                $('.' + InstructionField).html(MSgReworkApplication);
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().hide();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).hide();
+                    removeRequired(e);
+                    setTimeout(() => {
+                        $('.' + e).hide();
+                    }, 400);
+                });
+                $('.correspondence_address2').hide();
+                $('h3:contains(Applicant Information)').length ? $('#next_btn').remove() : console.log();
+                $('.owl-next').hide();
+            } else {
+                FormStages.forEach(function (e) {
+                    $('.' + e).parent().parent().hide();
+                });
+                Address_ApplicantField.forEach(function (e) {
+                    $('.' + e).hide();
+                    removeRequired(e);
+                    setTimeout(() => {
+                        $('.' + e).hide();
+                    }, 400);
+                });
+                $('.correspondence_address2').hide();
+                $('.field_474271').show();
+                $('.app-Survey-Questions-ico').parent().parent().remove();
+                $('a:contains(Back)').remove();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-3.text-left').hide() : console.log();
+                $('h3:contains(Applicant Information)').length ? $('.col-xs-6').css('margin-left', 90) : console.log();
+                $('.owl-next').hide();
+                if ($('.field_474271:contains(We are reviewing your documents and rest of the Application will be accessible depending on the status marked by the Admissions Team in the above fields.)').length) {
+                    $('#next_btn,.owl-next').hide();
+                }
+            }
+        }
+        // Showing status of documents in document verification table on 2 page
+        $('#field_474265_1_1').val($('#field_474259').val()).trigger('chosen:updated').css('pointer-events', 'none');
+        $('#field_474265_1_2').val($('#field_474258').val()).trigger('chosen:updated').css('pointer-events', 'none');
+        $('#field_474265_1_3').val($('#field_474257').val()).trigger('chosen:updated').css('pointer-events', 'none');
+        $('#field_474265_1_4').val($('#field_474255').val()).trigger('chosen:updated').css('pointer-events', 'none');
+        $('#field_474265_1_5').val($('#field_474254').val()).trigger('chosen:updated').css('pointer-events', 'none');
+    }
+    $(document).ready(Runonload);
+}
+CheckApplicatioStatus('field_474259', 'field_474258', 'field_474257', 'nationality', 'field_474263');
+/*End Anshul code here*/
+
+//------Applicant name and Nationality Populate-------------
+if ($('#field_474154').length) {
+    $('#field_474154').val($('#first_name').val());
+}
+
+$(document).ajaxStop(function () {
+    if ($('#field_474156').length) {
+        $('#field_474156').val($('#nationality').val()).change().trigger('chosen:updated');
+    }
+});
+
+//---------------------Payment button hide on dashboard------
+if ($(".owl-item .item .pay-ment:contains('Payment')").length) {
+    $(".owl-item .item .pay-ment:contains('Payment')").parent().parent().hide();
+}
+
+var countLabel = $('label#page_wise_percent_1').text();
+if (countLabel == 100) {
+    if ($(".owl-item .item .pay-ment:contains('Payment')").length) {
+        $(".owl-item .item .pay-ment:contains('Payment')").parent().parent().show();
+    }
+}
+// hiding Admin fields in frontend and showing them in preview
+if (location.pathname.search("/preview") !== -1) {
+    $('#field_474259').parent().parent().show();
+    $('#field_474258').parent().parent().show();
+    $('#field_474257').parent().parent().show();
+    // $('#field_245295').parent().parent().show();
+    $('#field_474255').parent().parent().show();
+    $('#field_474254').parent().parent().show();
+}
+
+$('.control-label:contains(table_cell_wise)').remove();
+
+function makingSPMNonEditable() {
+    if ($('#field_474259').val() == "Request Rejected" || $('#field_474259').val() == "Request Approved") {
+        //$('div#list_files_field_474153').remove();
+        $('#field_474153').css('pointer-events', 'none');
+    } else {
+        $('#field_474153').css('pointer-events', 'visible');
+    }
+}
+$('#field_474259').change(function () {
+    makingSPMNonEditable();
+});
+makingSPMNonEditable();
+
+function SPTM() {
+    if ($('#field_474258').val() == "Request Rejected" || $('#field_474258').val() == "Request Approved") {
+        $('div#list_files_field_474209').remove();
+        $('#field_474209').css('pointer-events', 'none');
+    } else {
+        $('#field_474209').css('pointer-events', 'visible');
+    }
+}
+$('#field_474258').change(function () {
+    SPTM();
+});
+SPTM();
+
+function ALEVEL() {
+    if ($('#field_474257').val() == "Request Rejected" || $('#field_474257').val() == "Request Approved") {
+        //$('div#list_files_field_474223').remove();
+        $('#field_474223').css('pointer-events', 'none');
+    } else {
+        $('#field_474223').css('pointer-events', 'visible');
+    }
+}
+$('#field_474257').change(function () {
+    ALEVEL();
+});
+ALEVEL();
+
+
+///-Already saved mobile dial code should not get reset to 60 
+
+if ($('.father_mobile_no #countryDialCodeDiv li[data-value="+60"]').length > 0 && ($('#father_mobile_no').val() === '' || $('#father_mobile_no').val() === null)) {
+    $('.father_mobile_no #countryDialCodeDiv li[data-value="+60"]').trigger('click');
+    $(document).trigger('click');
+    $(window).scrollTop(0);
+}
+
+if ($('.mother_mobile_no #countryDialCodeDiv li[data-value="+60"]').length > 0 && ($('#mother_mobile_no').val() === '' || $('#mother_mobile_no').val() === null)) {
+    $('.mother_mobile_no #countryDialCodeDiv li[data-value="+60"]').trigger('click');
+    $(document).trigger('click');
+    $(window).scrollTop(0);
+}
+
+if ($('.local_guardian_mobile #countryDialCodeDiv li[data-value="+60"]').length > 0 && ($('#local_guardian_mobile').val() === '' || $('#local_guardian_mobile').val() === null)) {
+    $('.local_guardian_mobile #countryDialCodeDiv li[data-value="+60"]').trigger('click');
+    $(document).trigger('click');
+    $(window).scrollTop(0);
+}
+
+
+if ($('.field_474126 #countryDialCodeDiv li[data-value="+60"]').length > 0 && ($('#field_474126').val() === '' || $('#field_474126').val() === null)) {
+    $('.field_474126 #countryDialCodeDiv li[data-value="+60"]').trigger('click');
+    $(document).trigger('click');
+    $(window).scrollTop(0);
+}
+
+if ($('.field_474173 #countryDialCodeDiv li[data-value="+60"]').length > 0 && ($('#field_474173').val() === '' || $('#field_474173').val() === null)) {
+    $('.field_474173 #countryDialCodeDiv li[data-value="+60"]').trigger('click');
+    $(document).trigger('click');
+    $(window).scrollTop(0);
+}
+var rejected = function () {
+    if ($('#field_474259').val() == "Request Rejected" || $('#field_474258').val() == "Request Rejected" /*|| $('#field_474257').val() == "Request Rejected" || $('#field_245295').val() == "Request Rejected"*/ ) {
+        $('#field_474261').val('Yes Rejected').trigger('chosen:updated');
+    } else {
+        $('#field_474261').val('').trigger('chosen:updated');
+    }
+}
+$('#field_474259,#field_474258').change(rejected);
+// $('#field_474259,#field_474258,#field_474257,#field_245295').change(rejected);
+if (location.pathname.search("/preview") === -1) {
+    $(document).ready(function () {
+        rejected();
+        for (var i = 6; i <= 9; i++) {
+            if (($('#field_47425' + i).val() === "Request Rejected") && ($("h3:contains(Father's Details)").length == 1 || $("h3:contains(Academic Details)").length == 1 || $("label:contains(Financial Support)").length == 1 || $("h3:contains(Other Details)").length == 1 || $("h3:contains(Invoices And Examinations Results Should Be Sent To :)").length == 1 || $("h3:contains(Medical Report)").length == 1 || $("h3:contains(Upload Details)").length == 1 || $("h3:contains(Declaration By Applicant)").length == 1 || $("h2:contains(Review Your Payment Details)").length == 1)) {
+                console.log('Value of Any', $('#field_47425' + i).val());
+                setTimeout(function () {
+                    $(location).attr("href", "https://admissions.manipal.edu.my/BDS-October-2023/dashboard"), 5000
+                });
+            }
+        }
+    });
+}
+
+/*to send on the second page while someone got request rework*/
+var sendsecondpage = function () {
+    for (var i = 7; i <= 9; i++) {
+        if ($('#field_47425' + i).val() === "Request Rework") {
+            $('.icon-candi_npf').click();
+        }
+    }
+}
+if ($('#field_474266').length) {
+    sendsecondpage();
+}
+
+$('label:contains(Online)').hide();
+
+
+//Non-Editable for Rework Case//
+function noneditableforrework() {
+    if ($('#field_474259,#field_474258,#field_474257').val() == "Request Rework") {
+        $('#field_474142_chosen,#applicant_title_chosen,#nationality_chosen,#field_474147_chosen,#field_474220, #field_474218, #field_474219,#passport_no, #first_name, #field_474146').css('pointer-events', 'none');
+        $('.radio.radio-primary.horizontal').css('pointer-events', 'none')
+    }
+}
+$('#field_474259,#field_474258,#field_474257').change(function () {
+    noneditableforrework();
+});
+noneditableforrework();
+
+/*payment page & form stage hide-div*/
+$('.rowProduct .radio').removeClass("col-sm-3").addClass("col-sm-6");
+setTimeout(function () {
+    if ($(".current-stage").text() == "Register To Apply") {
+        FormStages.forEach(function (e) {
+            $('.' + e).parent().parent().hide();
+        });
+    }
+}, 400);
+
+
+//------Guardian name and Nationality Populate-------------
+if ($('#field_474159').length) {
+    $('#field_474159').val($('#local_guardian_name').val());
+}
+
+$('#make_payment').text('Upload Remittance Slip or Proof of Payment');
+if (location.pathname.search("preview-missing-fields") !== -1) {
+    $('.nationality').parent().hide();
+}
+
+$('#field_474217_0').parent().hide();
+$("#payment_mode2").length && $("#payment_mode2").click();
+
+
+
+if ($('#application_stage').val() == '341020;;;Application Paid') {
+
+    $('.field_474319').show();
+
+} else {
+
+    $('.field_474319').hide();
+
+}
+
+
+if ($('#application_stage').val() == '395048;;;Eligible For Interview') {
+
+    $('.field_417593').show();
+
+} else {
+
+    $('.field_417593').hide();
+
+}
+
+
+if ($('#application_stage').val() == '396863;;;Final Offer Letter Issued') {
+
+    $('.field_474342').show();
+
+} else {
+
+    $('.field_474342').hide();
+
+}
+
+
+
+if ($('#application_stage').val() == "396863;;;Final Offer Letter Issued" || $('#application_stage').val() == "402488;;;Provisional Offer Letter Issued" || $('#application_stage').val() == "374178;;;Partial Payment Done" || $('#application_stage').val() == "396863;;;Final Offer Letter Issued") {
+
+    $('.field_474329').show();
+    $('.field_474330').show();
+    $('.field_474331').show();
+} else {
+
+    $('.field_474329').hide();
+    $('.field_474330').hide();
+    $('.field_474331').hide();
+}
+
+
+
+if ($('#application_stage').val() == '402488;;;Provisional Offer Letter Issued') {
+
+    $('.field_474341').show();
+
+} else {
+
+    $('.field_474341').hide();
+
+}
+
+
+
+if ($('#application_stage').val() == "396863;;;Final Offer Letter Issued" || $('#application_stage').val() == "402488;;;Provisional Offer Letter Issued") {
+
+    $('.field_474343').show();
+
+} else {
+
+    $('.field_474343').hide();
+
+}
+
+$('#profile_image, #field_474189, #field_474251').is(":disabled") && $('.profile_image, .field_474189, .field_474251, .field_474252').hide();
+
+
+
+function hideField(){
+            if($(".reSubmitLogicForm").length){
+               setTimeout(()=>{
+                $(".field_474334").hide();
+               },100);
+            }
+}
+if($(".reSubmitLogicForm").length){
+    $(".field_474334").hide();
+}
+$(document).ajaxStop(hideField);
+$(document).ready(hideField);
+
+
+$("#field_474142 option[value='2022 April']").hide();
+$('.chosen-select').trigger('chosen:updated');
+
+
+ setTimeout(()=>{
+
+    if(($('#field_474265_1_1').val()==="Request Approved" && $('#field_474265_1_2').val()==="Request Approved") ){
+        $('.back-btn').hide();
+    }
+},700);
+
+// $('.btn:contains(Back)').hide()
+
+
+setTimeout(()=>{
+
+    if($('#field_474265_1_6').val()==="Request Rejected" || $('#field_474265_1_6').val()==="Request Rework" || $('#field_474265_1_6').val()==="In Progress"){
+        $('.next-btn').hide();
+    }
+},700);
+
+function toCheck() {
+    console.log('Function exe');
+    if ($('#field_474218_0').is(':checked')) { //MUCM is Yes
+        if ($('#nationality').val() == "232825;;;Malaysian") {
+            $('#field_474400').val('Malaysian Yes').trigger('chosen:updated');
+        } else if ($('#nationality').val() != "232825;;;Malaysian") {
+            $('#field_474400').val('International Yes').trigger('chosen:updated');
+        }
+    } else if ($('#field_474218_1').is(':checked')) { //MUCM is No
+        if ($('#nationality').val() == "232825;;;Malaysian") {
+            $('#field_474400').val('Malaysian No').trigger('chosen:updated');
+        } else if ($('#nationality').val() != "232825;;;Malaysian") {
+            $('#field_474400').val('International No').trigger('chosen:updated');
+        }
+    }
+}
+$(document).ajaxStop(toCheck);
+$('#nationality,#field_474218_0,#field_474218_1').change(toCheck);
